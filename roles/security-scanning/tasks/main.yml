@@ -1,0 +1,12 @@
+---
+- name: Install Trivy
+  shell: |
+    curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -
+  args:
+    creates: /usr/local/bin/trivy
+  tags: security_scanning
+
+- name: Scan Docker Images
+  shell: |
+    trivy image myregistry.com/nextjs-app:latest
+  tags: security_scanning

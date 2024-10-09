@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-model
+  namespace: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: python-model
+  template:
+    metadata:
+      labels:
+        app: python-model
+    spec:
+      containers:
+      - name: python-model
+        image: myregistry.com/python-model:latest
+        ports:
+        - containerPort: 5000

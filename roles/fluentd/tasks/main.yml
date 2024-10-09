@@ -1,0 +1,12 @@
+---
+- name: Install Fluentd
+  helm:
+    name: fluentd
+    chart: stable/fluentd
+    namespace: logging
+    values:
+      backend:
+        type: loki
+        loki:
+          url: http://loki.logging.svc.cluster.local:3100
+  tags: fluentd

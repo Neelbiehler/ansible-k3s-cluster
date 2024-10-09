@@ -1,0 +1,12 @@
+---
+- name: Install Velero
+  shell: |
+    velero install \
+      --provider hetzner \
+      --bucket velero-backups \
+      --secret-file /path/to/hetzner_credentials.env \
+      --plugins velero/velero-plugin-for-hetzner:main \
+      --use-volume-snapshots=false
+  args:
+    creates: /usr/local/bin/velero
+  tags: velero

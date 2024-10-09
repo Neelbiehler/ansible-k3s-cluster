@@ -1,0 +1,5 @@
+---
+- name: Set up CI/CD Pipeline
+  shell: |
+    echo "Integrate your CI/CD pipeline with Kubernetes using tools like Argo CD or Flux."
+  tags: ci_cd

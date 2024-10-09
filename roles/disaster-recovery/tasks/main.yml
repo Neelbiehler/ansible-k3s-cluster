@@ -1,0 +1,5 @@
+---
+- name: Document Disaster Recovery Procedures
+  shell: |
+    echo "Ensure backups are tested and recovery procedures are documented."
+  tags: disaster_recovery

@@ -1,0 +1,25 @@
+---
+- name: Create Hetzner Load Balancer
+  community.general.hcloud_load_balancer:
+    api_token: "{{ hetzner_token }}"
+    name: k3s-loadbalancer
+    load_balancer_type: lb11
+    location: fsn1
+  delegate_to: localhost
+
+- name: Attach services to Load Balancer
+  community.general.hcloud_load_balancer_service:
+    api_token: "{{ hetzner_token }}"
+    load_balancer: k3s-loadbalancer
+    protocol: http
+    listen_port: 80
+    destination_port: 80
+  delegate_to: localhost
+
+- name: Add servers to Load Balancer targets
+  community.general.hcloud_load_balancer_target:
+    api_token: "{{ hetzner_token }}"
+    load_balancer: k3s-loadbalancer
+    server: "{{ inventory_hostname }}"
+    use_private_ip: true
+  delegate_to: localhost

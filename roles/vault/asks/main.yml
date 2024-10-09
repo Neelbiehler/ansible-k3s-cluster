@@ -1,0 +1,13 @@
+---
+- name: Install HashiCorp Vault
+  helm:
+    name: vault
+    chart: hashicorp/vault
+    namespace: vault
+    values:
+      server:
+        dataStorage:
+          enabled: true
+      injector:
+        enabled: true
+  tags: vault

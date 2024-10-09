@@ -1,0 +1,22 @@
+---
+- name: Create namespace for ingress
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: ingress-nginx
+
+- name: Install NGINX Ingress Controller
+  helm:
+    name: ingress-nginx
+    chart: ingress-nginx/ingress-nginx
+    namespace: ingress-nginx
+    values:
+      controller:
+        replicaCount: 2
+        service:
+          type: LoadBalancer
+          loadBalancerIP: "{{ hetzner_load_balancer_ip }}"
+  tags: nginx_ingress

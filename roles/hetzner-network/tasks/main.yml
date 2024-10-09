@@ -1,0 +1,16 @@
+---
+- name: Create Hetzner Private Network
+  community.general.hcloud_network:
+    api_token: "{{ hetzner_token }}"
+    name: k3s-private-network
+    ip_range: 10.0.0.0/16
+  delegate_to: localhost
+
+- name: Attach servers to the network
+  community.general.hcloud_server_network:
+    api_token: "{{ hetzner_token }}"
+    server: "{{ inventory_hostname }}"
+    network: k3s-private-network
+    ip: "10.0.0.{{ item }}"
+  with_sequence: start=10 end=11
+  delegate_to: localhost

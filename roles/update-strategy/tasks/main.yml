@@ -1,0 +1,5 @@
+---
+- name: Define Update and Rollback Plans
+  shell: |
+    echo "Implement Rolling Updates and set up version control for configurations."
+  tags: update_strategy

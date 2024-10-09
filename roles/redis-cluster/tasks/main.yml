@@ -1,0 +1,17 @@
+---
+- name: Install Redis Cluster
+  helm:
+    name: redis-cluster
+    chart: bitnami/redis-cluster
+    namespace: database
+    values:
+      cluster:
+        nodes: 6
+      auth:
+        enabled: true
+        password: "{{ redis_password }}"
+      persistence:
+        enabled: true
+  vars:
+    redis_password: "{{ lookup('password', '/dev/null length=20 chars=ascii_letters') }}"
+  tags: redis_cluster

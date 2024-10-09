@@ -1,0 +1,25 @@
+---
+- name: Create namespace for databases
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: database
+
+- name: Install MongoDB
+  helm:
+    name: mongodb
+    chart: bitnami/mongodb
+    namespace: database
+    values:
+      auth:
+        username: myuser
+        password: "{{ mongodb_password }}"
+        database: mydb
+      persistence:
+        enabled: true
+  vars:
+    mongodb_password: "{{ lookup('password', '/dev/null length=20 chars=ascii_letters') }}"
+  tags: model_database

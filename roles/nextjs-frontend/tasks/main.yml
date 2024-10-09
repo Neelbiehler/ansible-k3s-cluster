@@ -1,0 +1,18 @@
+---
+- name: Build Next.js Frontend Docker image
+  community.docker.docker_image:
+    build:
+      path: "{{ nextjs_app_path }}"
+    name: myregistry.com/nextjs-app
+    tag: latest
+    push: yes
+    source: build
+    registry_username: "{{ registry_username }}"
+    registry_password: "{{ registry_password }}"
+  tags: nextjs-frontend
+
+- name: Deploy Next.js Frontend application
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'nextjs_deployment.yml.j2') }}"
+  tags: nextjs-frontend

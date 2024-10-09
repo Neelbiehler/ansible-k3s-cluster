@@ -1,0 +1,5 @@
+---
+- name: Generate Cluster Documentation
+  shell: |
+    echo "Generating documentation with tools like Kubernetes Lens or Kubevious."
+  tags: documentation

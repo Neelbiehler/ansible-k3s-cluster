@@ -1,0 +1,31 @@
+---
+- name: Create namespace for logging
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: logging
+
+- name: Add Grafana Helm repository
+  helm_repository:
+    name: grafana
+    repo_url: https://grafana.github.io/helm-charts
+
+- name: Install Loki Stack
+  helm:
+    name: loki-stack
+    chart: grafana/loki-stack
+    namespace: logging
+    values:
+      grafana:
+        enabled: true
+        persistence:
+          enabled: true
+        adminPassword: "{{ grafana_admin_password }}"
+      prometheus:
+        enabled: false
+  vars:
+    grafana_admin_password: "{{ lookup('password', '/dev/null length=20 chars=ascii_letters') }}"
+  tags: logging

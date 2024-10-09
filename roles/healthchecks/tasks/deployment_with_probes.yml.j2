@@ -1,0 +1,25 @@
+# Beispiel für Next.js Deployment mit Probes
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nextjs-app
+  namespace: frontend
+spec:
+  # ...
+  template:
+    spec:
+      containers:
+      - name: nextjs-app
+        # ...
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 15
+          periodSeconds: 20

@@ -1,0 +1,6 @@
+---
+- name: Update Deployments with Probes
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'deployment_with_probes.yml.j2') }}"
+  tags: healthchecks

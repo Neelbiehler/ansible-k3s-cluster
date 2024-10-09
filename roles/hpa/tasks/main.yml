@@ -1,0 +1,6 @@
+---
+- name: Create HPA for Next.js App
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'nextjs_hpa.yml.j2') }}"
+  tags: hpa

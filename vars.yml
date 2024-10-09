@@ -1,0 +1,5 @@
+hetzner_token: "hetzner_api_token"
+domain_name: "example.com"
+email_address: "admin@example.com"
+registry_username: "registry_username"
+registry_password: "registry_password"

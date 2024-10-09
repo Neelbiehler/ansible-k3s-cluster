@@ -1,0 +1,18 @@
+---
+- name: Install PostgreSQL with Replication
+  helm:
+    name: postgresql
+    chart: bitnami/postgresql-ha
+    namespace: database
+    values:
+      postgresql:
+        password: "{{ postgresql_password }}"
+      postgresqlReplication:
+        enabled: true
+        password: "{{ postgresql_replication_password }}"
+      persistence:
+        enabled: true
+  vars:
+    postgresql_password: "{{ lookup('password', '/dev/null length=20 chars=ascii_letters') }}"
+    postgresql_replication_password: "{{ lookup('password', '/dev/null length=20 chars=ascii_letters') }}"
+  tags: postgresql

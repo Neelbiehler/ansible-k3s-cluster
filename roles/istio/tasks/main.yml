@@ -1,0 +1,22 @@
+---
+- name: Install Istio
+  shell: |
+    curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.17.2 sh -
+    cd istio-1.17.2
+    export PATH=$PWD/bin:$PATH
+    istioctl install --set profile=demo -y
+  args:
+    creates: /usr/local/bin/istioctl
+  tags: istio
+
+- name: Label namespace for Istio injection
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: default
+        labels:
+          istio-injection: enabled
+  tags: istio

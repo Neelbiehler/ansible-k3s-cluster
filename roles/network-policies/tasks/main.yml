@@ -1,0 +1,6 @@
+---
+- name: Apply Network Policies
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('file', 'network_policies.yml') }}"
+  tags: network_policies

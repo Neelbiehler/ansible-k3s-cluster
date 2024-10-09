@@ -1,0 +1,33 @@
+---
+- name: Create namespace for Keycloak
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: keycloak
+
+- name: Add Codecentric Helm repository
+  helm_repository:
+    name: codecentric
+    repo_url: https://codecentric.github.io/helm-charts
+
+- name: Install Keycloak
+  helm:
+    name: keycloak
+    chart: codecentric/keycloak
+    namespace: keycloak
+    values:
+      keycloak:
+        username: admin
+        password: "{{ keycloak_admin_password }}"
+      postgresql:
+        enabled: true
+      ingress:
+        enabled: true
+        hosts:
+          - keycloak.example.com
+  vars:
+    keycloak_admin_password: "{{ lookup('password', '/dev/null length=20 chars=ascii_letters') }}"
+  tags: keycloak
